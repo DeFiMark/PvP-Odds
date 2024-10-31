@@ -5,35 +5,137 @@ import java.util.Random;
 public class FortuneWheel {
 
 	
-	public static double buyIn = 1;
-	
-	public static double[] _prizes = {
-		2,   5,   0,  25,  8,    100,   0,   333,   0,   50,   25,   0,   50,   2.5,   0,   10,   5,   0,    2.5,  4,  0.5
-	};
-	
-	public static int[] prizeWeights = {
-		50, 30,  350, 15,  25,    4,   750,   1,   735,   8,   15,  500,   8,   40,   300,  15,  30,  350,   40,  30,  200
-	};
-	
-//	public static double[] prizes_5 = {
-//			1, 1, 1, 1, 2.5, 5, 2.5, 1, 1, 2.5, 10,
-//			2.5, 1, 1, 25, 1, 1, 2.5, 1, 1, 1, 50, 
-//			2.5, 1, 2.5, 1, 100, 2.5, 1, 1, 1, 2.5,
-//			1, 1, 1, 2.5, 1, 1, 1, 2.5, 1, 1, 1, 
-//			2.5, 1, 1, 1, 2.5, 1, 1, 1, 1
-//		};
-//	
-//	public static double[] prizes_10 = {
-//			1, 2.5, 2, 2, 1, 2.5, 2, 2, 1, 2.5, 2, 2, 1, 2.5, 2, 2,
-//			5, 1, 10, 2, 25, 1, 5, 2.5, 100, 2, 1, 1, 250, 1, 1, 50, 
-//			1, 1, 2, 2.5, 5, 17, 1, 2.5, 5, 2, 1, 5, 2.5, 1, 1, 2.5, 5, 2, 1, 5, 2.5, 1, 1, 2.5, 5, 2, 1, 5, 2.5, 1
-//	};
 	
 	public static void run() {
-		runSim(buyIn, _prizes, prizeWeights);
+		runNEWSim();
 	}
 	
-	public static void runSim(double buyIn, double[] prizes, int[] _prizeWeights) {
+	
+	
+	
+	public static void runNEWSim() {
+		System.out.println("Running New And Improved Fortune Wheel");
+		
+		int[] payouts = {  1,   2,   5,   10,   25,  50};
+		int[] odds    = { 500, 420, 210,  100,  40,  20};
+		// find odds where odds[i] * ( payouts[i] + 1 ) < totalOdds
+		
+		
+		int[] totalOdds = new int[odds.length];
+		for (int i = 0; i < odds.length; i++) {
+			if (i == 0) {
+				totalOdds[0] = odds[0];
+			} else {
+				totalOdds[i] = totalOdds[i - 1] + odds[i];
+			}
+//			System.out.printf("%d, ", totalOdds[i]);
+		}
+		
+		int totalOptions = totalOdds[totalOdds.length - 1];
+		System.out.printf("Total Options: %d\n",totalOptions);
+		
+		double startingValue = 0;
+		double currentValue = startingValue;
+		double bet = 1.0;
+		
+		// betting all on the end gives you a specific edge 2% (101 / 51)
+		
+		// we need to make sure that the ratio of ( payout * odds ) < totalOdds for each item
+		// ideally we keep the ratio of ( payout * odds ) / totalOdds the same for each item as well
+		// otherwise certain numbers will have a far worse house edge than others
+		int[] guesses = { 1, 1, 1, 1, 1, 1 }; // { 0, 0, 0, 0, 0, 1 };
+		
+		double totalBet = 0;
+		for (int i = 0; i < guesses.length; i++) {
+			totalBet += guesses[i] * bet;
+		}
+		
+		int iterations = 50_000_000;
+		
+		Random r = new Random();
+		
+		double[] currentValuess = new double[guesses.length];
+		double currentValuessTwo = 0;
+		for (int currentGuessNo = 0; currentGuessNo < guesses.length; currentGuessNo++) {
+			for (int i = 0; i < iterations; i++) {
+				
+				currentValuess[currentGuessNo] -= bet;
+				currentValuessTwo -= totalBet;
+				
+				int index = r.nextInt(Integer.MAX_VALUE) % totalOptions;
+				int winner = totalOdds.length;
+				
+				for (int j = 0; j < totalOdds.length; j++) {
+					if (index < totalOdds[j]) {
+						winner = j;
+						break;
+					}
+				}
+				
+				double payout = ((double)payouts[winner] + 1) * bet;
+				if (currentGuessNo == winner) {
+					currentValuess[currentGuessNo] += payout;
+				}
+				currentValuessTwo += payout * guesses[winner];
+			}
+		}
+		
+		System.out.printf("\nIndividual Guesses House Edges:\n");
+		for (int i = 0; i < guesses.length; i++) {
+			double houseEdge = 100 * ( ( -1 * currentValuess[i] ) / ( bet * (double)iterations));
+			System.out.printf("%d: %.4f%%\n", payouts[i], houseEdge);
+		}
+		
+		System.out.printf("\n");
+		double guessOnAllEdge = 100 * ( ( -1 * currentValuessTwo ) / ( bet * (double)iterations * guesses.length));
+		System.out.printf("Guessing 1 On All: %.4f%%\n", guessOnAllEdge);
+		
+		
+		
+
+//		for (int i = 0; i < iterations; i++) {
+//			
+//			currentValue -= totalBet;
+//			
+//			int index = r.nextInt(Integer.MAX_VALUE) % totalOptions;
+//			int winner = totalOdds.length;
+//			
+//			for (int j = 0; j < totalOdds.length; j++) {
+//				if (index < totalOdds[j]) {
+//					winner = j;
+//					break;
+//				}
+//			}
+//			
+//			double payout = (double)payouts[winner] * guesses[winner] * bet;
+//			currentValue += payout;
+//			
+//		}
+		
+//		double userEdge = 100 * ( currentValue / ( totalBet * (double)iterations));
+//		double houseEdge = 100 * ( ( -1 * currentValue ) / ( totalBet * (double)iterations));
+//		
+//		System.out.printf("User Value: %.1f\n", currentValue);
+//		System.out.printf("House Edge: %.4f%%\n", houseEdge);
+		
+	}
+	
+	
+	
+	
+	
+	
+	public static void runOLDSim() {
+		
+		double buyIn = 1;
+		
+		double[] prizes = {
+			2,   5,   0,  25,  8,    100,   0,   333,   0,   50,   25,   0,   50,   2.5,   0,   10,   5,   0,    2.5,  4,  0.5
+		};
+		
+		int[] prizeWeights = {
+			50, 30,  350, 15,  25,    4,   750,   1,   735,   8,   15,  500,   8,   40,   300,  15,  30,  350,   40,  30,  200
+		};
 		
 		double totalWon = 0;
 		double totalSpent = 0;
@@ -50,7 +152,7 @@ public class FortuneWheel {
 //			totalSpent += buyIn;
 //			totalWon += prizes[i];
 			
-			totalProduct += ( prizes[i] * _prizeWeights[i] ) / totalWeight;
+			totalProduct += ( prizes[i] * prizeWeights[i] ) / totalWeight;
 		}
 		
 //		System.out.printf("Total Spent %.2f\n", totalSpent);
@@ -58,13 +160,13 @@ public class FortuneWheel {
 		
 		int prizeWeightTotal = 0;
 		int totalOverBuyIn = 0;
-		int[] prizeWeightTotals = new int[_prizeWeights.length];
-		for (int i = 0; i < _prizeWeights.length; i++) {
-			prizeWeightTotal += _prizeWeights[i];
+		int[] prizeWeightTotals = new int[prizeWeights.length];
+		for (int i = 0; i < prizeWeights.length; i++) {
+			prizeWeightTotal += prizeWeights[i];
 			prizeWeightTotals[i] = prizeWeightTotal;
 			System.out.print(prizeWeightTotals[i] + " ");
 			if (prizes[i] > buyIn) {
-				totalOverBuyIn += _prizeWeights[i];
+				totalOverBuyIn += prizeWeights[i];
 			}
 		}
 		System.out.println("\nprizeWeightTotal: " + prizeWeightTotal + "\n");
@@ -87,14 +189,14 @@ public class FortuneWheel {
 			houseValue += amountForHouse;
 			
 			int rng = r.nextInt(Integer.MAX_VALUE) % prizeWeightTotal;
-			int option = _prizeWeights.length;
-			for (int j = 0; j < _prizeWeights.length; j++) {
+			int option = prizeWeights.length;
+			for (int j = 0; j < prizeWeights.length; j++) {
 				if (rng < prizeWeightTotals[j]) {
 					option = j;
 					break;
 				}
 			}
-			if (option >= _prizeWeights.length) {
+			if (option >= prizeWeights.length) {
 				System.out.println("Error finding match!!!! " + rng);
 			}
 			

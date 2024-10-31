@@ -338,13 +338,14 @@ public class Main {
 		
 		
 		// NEWEST REAL SLOT GAMES FOR NEW UPDATE 10/21/2024 - Design Game UX Update
-		FinalBluechip.run();
+//		FinalBluechip.run();
 //		FinalBonanza.run();
 //		FinalMemecoin.run();
 		
 		
 		
 //		runSimGUI();
+		
 //		getCuts();
 		
 //		GoldRush.runMineSweep();
@@ -356,7 +357,7 @@ public class Main {
 //		Memecoinmadness.run(); // ADDING NEW NON-COMBOS TO IMPROVE UX
 		
 		
-//		FortuneWheel.run();
+		FortuneWheel.run();
 		
 //		shitcoinAlley.run();
 //		FortuneWheel.run();
