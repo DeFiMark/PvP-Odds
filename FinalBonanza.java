@@ -124,6 +124,13 @@ public class FinalBonanza {
 			
 			{Coins.USDC, Coins.USDC, Coins.BTC},
 			{Coins.USDC, Coins.USDC, Coins.BCH},
+			{Coins.USDC, Coins.USDC, Coins.CRO},
+			{Coins.USDC, Coins.USDC, Coins.LTC},
+			{Coins.USDC, Coins.USDC, Coins.USDT},
+			
+			{Coins.CRO, Coins.CRO, Coins.USDC},
+			{Coins.LTC, Coins.LTC, Coins.USDC},
+			{Coins.USDT, Coins.USDT, Coins.USDC},
 			
 			{Coins.CRO, Coins.BTC, Coins.BTC},
 			{Coins.LTC, Coins.BTC, Coins.BTC},
@@ -266,13 +273,13 @@ public class FinalBonanza {
 			}
 			
 			else if (combos[i][0] == Coins.BCH && combos[i][1] == Coins.BCH && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 20;
+				realPayouts[i] = 21;
 			}
 			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BCH && combos[i][2] == Coins.BCH) {
-				realPayouts[i] = 20;
+				realPayouts[i] = 25;
 			}
 			else if (combos[i][0] == Coins.BCH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BCH) {
-				realPayouts[i] = 20;
+				realPayouts[i] = 21;
 			}
 			
 			
@@ -286,11 +293,16 @@ public class FinalBonanza {
 				realPayouts[i] = 15;
 			}
 			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.USDT) {
-				realPayouts[i] = 13;
+				realPayouts[i] = 12;
 			}
 			
-			
-			if (realPayouts[i] < 1.25) {
+			if (realPayouts[i] < 0.75) {
+				System.out.println("NOW 0.5: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + " => " + realPayouts[i]);
+				realPayouts[i] = 0.5;
+			} else if (realPayouts[i] < 1) {
+				System.out.println("NOW 0.8: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + " => " + realPayouts[i]);
+				realPayouts[i] = 0.8;
+			} else if (realPayouts[i] < 1.25) {
 				System.out.println("NOW 1.25: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + " => " + realPayouts[i]);
 				realPayouts[i] = 1.25;
 			} else if (realPayouts[i] < 1.5) {
@@ -580,8 +592,8 @@ public class FinalBonanza {
 		int coin1 = 0;
 		int coin2 = 0;
 		
-		int odds_for_boost = 0;//50;
-		double reducedBuyIn = bet;//0.5 * bet;
+		int odds_for_boost = 0;
+		double reducedBuyIn = bet;
 		int timesBoosted = 0;
 		
 		if (reducedBuyIn < bet) {

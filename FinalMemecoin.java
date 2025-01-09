@@ -66,13 +66,19 @@ public class FinalMemecoin {
 			{Coins.PEPE, Coins.SHIB, Coins.BTC},
 			{Coins.PEPE, Coins.SHIB, Coins.SHIB},
 			{Coins.PEPE, Coins.SHIB, Coins.PEPE},
+			{Coins.PEPE, Coins.SHIB, Coins.DOGE},
+			{Coins.PEPE, Coins.SHIB, Coins.DUCK},
 			
 			{Coins.PEPE, Coins.DUCK, Coins.BTC},
 			{Coins.PEPE, Coins.DUCK, Coins.PEPE},
+			{Coins.PEPE, Coins.DUCK, Coins.SHIB},
+			{Coins.PEPE, Coins.DUCK, Coins.DOGE},
 			{Coins.PEPE, Coins.DUCK, Coins.DUCK},
 			
 			{Coins.PEPE, Coins.DOGE, Coins.BTC},
 			{Coins.PEPE, Coins.DOGE, Coins.PEPE},
+			{Coins.PEPE, Coins.DOGE, Coins.SHIB},
+			{Coins.PEPE, Coins.DOGE, Coins.DUCK},
 			{Coins.PEPE, Coins.DOGE, Coins.DOGE},
 			
 			
@@ -91,13 +97,15 @@ public class FinalMemecoin {
 			
 			{Coins.SHIB, Coins.SHIB, Coins.BTC},
 			{Coins.SHIB, Coins.SHIB, Coins.PEPE},
+//			{Coins.SHIB, Coins.SHIB, Coins.DUCK},
 			
 			{Coins.SHIB, Coins.DUCK, Coins.BTC},
 			{Coins.SHIB, Coins.DUCK, Coins.PEPE},
+//			{Coins.SHIB, Coins.DUCK, Coins.DUCK},
 			
 			{Coins.SHIB, Coins.DOGE, Coins.BTC},
 			{Coins.SHIB, Coins.DOGE, Coins.PEPE},
-			
+//			{Coins.SHIB, Coins.DOGE, Coins.DOGE},
 			
 			
 			{Coins.DUCK, Coins.BTC, Coins.BTC},
@@ -216,19 +224,19 @@ public class FinalMemecoin {
 			
 			
 			if (combos[i][0] == Coins.DOGE && combos[i][1] == Coins.DOGE && combos[i][2] == Coins.DOGE) {
-				realPayouts[i] = 2.5;
+				realPayouts[i] = 1;
 			}
 			else if (combos[i][0] == Coins.SHIB && combos[i][1] == Coins.SHIB && combos[i][2] == Coins.SHIB) {
 				realPayouts[i] = 4;
 			}
 			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 75;
+				realPayouts[i] = 100;
 			}
 			else if (combos[i][0] == Coins.PEPE && combos[i][1] == Coins.PEPE && combos[i][2] == Coins.PEPE) {
-				realPayouts[i] = 10;
+				realPayouts[i] = 12;
 			}
 			else if (combos[i][0] == Coins.DUCK && combos[i][1] == Coins.DUCK && combos[i][2] == Coins.DUCK) {
-				realPayouts[i] = 3;
+				realPayouts[i] = 2;
 			}
 			
 			else if (combos[i][0] == Coins.PEPE && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BTC) {
@@ -242,36 +250,45 @@ public class FinalMemecoin {
 			}
 			
 			else if (combos[i][0] == Coins.PEPE && combos[i][1] == Coins.PEPE && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 12;
+				realPayouts[i] = 14;
 			}
 			else if (combos[i][0] == Coins.PEPE && combos[i][1] == Coins.BTC && combos[i][2] == Coins.PEPE) {
-				realPayouts[i] = 12;
+				realPayouts[i] = 14;
 			}
 			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.PEPE && combos[i][2] == Coins.PEPE) {
-				realPayouts[i] = 12;
+				realPayouts[i] = 15;
 			}
 			
 			else if (combos[i][0] == Coins.SHIB && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 9;
+				realPayouts[i] = 10;
 			}
-			else if (combos[i][0] == Coins.SHIB && combos[i][1] == Coins.PEPE && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 5;
+			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.SHIB && combos[i][2] == Coins.BTC) {
+				realPayouts[i] = 10;
+			}
+			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.SHIB) {
+				realPayouts[i] = 10;
 			}
 			
 			else if (combos[i][0] == Coins.DOGE && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 8;
-			}
-			else if (combos[i][0] == Coins.DOGE && combos[i][1] == Coins.PEPE && combos[i][2] == Coins.BTC) {
 				realPayouts[i] = 4;
 			}
+			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.DOGE && combos[i][2] == Coins.BTC) {
+				realPayouts[i] = 4;
+			}
+			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.DOGE) {
+				realPayouts[i] = 4;
+			}
+			
 			
 			else if (combos[i][0] == Coins.DUCK && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BTC) {
 				realPayouts[i] = 8;
 			}
-			else if (combos[i][0] == Coins.DUCK && combos[i][1] == Coins.PEPE && combos[i][2] == Coins.BTC) {
-				realPayouts[i] = 4;
+			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.DUCK && combos[i][2] == Coins.BTC) {
+				realPayouts[i] = 8;
 			}
-			
+			else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.DUCK) {
+				realPayouts[i] = 8;
+			}
 			
 			
 			if (realPayouts[i] < 0.5) {
@@ -564,8 +581,8 @@ public class FinalMemecoin {
 		int coin1 = 0;
 		int coin2 = 0;
 		
-		int odds_for_boost = 0;//50;
-		double reducedBuyIn = bet;//0.5 * bet;
+		int odds_for_boost = 0;
+		double reducedBuyIn = bet;
 		int timesBoosted = 0;
 		
 		if (reducedBuyIn < bet) {

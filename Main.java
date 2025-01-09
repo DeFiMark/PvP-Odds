@@ -342,6 +342,7 @@ public class Main {
 //		FinalBonanza.run();
 //		FinalMemecoin.run();
 		
+		SumProductSlots.run();
 		
 		
 //		runSimGUI();
@@ -357,7 +358,7 @@ public class Main {
 //		Memecoinmadness.run(); // ADDING NEW NON-COMBOS TO IMPROVE UX
 		
 		
-		FortuneWheel.run();
+//		FortuneWheel.run();
 		
 //		shitcoinAlley.run();
 //		FortuneWheel.run();

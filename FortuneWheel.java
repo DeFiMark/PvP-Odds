@@ -1,5 +1,8 @@
 package main;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class FortuneWheel {
@@ -10,16 +13,240 @@ public class FortuneWheel {
 		runNEWSim();
 	}
 	
+	public static double sum(double[] p) {
+		double tot = 0;
+		for (int i = 0; i < p.length; i++) {
+			tot += p[i];
+		}
+		return tot;
+	}
 	
+	public static double min(double[] p) {
+		double min = Double.MAX_VALUE;
+		for (int i = 0; i < p.length; i++) {
+			if (p[i] < min) {
+				min = p[i];
+			}
+		}
+		return min;
+	}
 	
+	public static void printArray(double[] array) {
+		DecimalFormat df = new DecimalFormat("#");
+        df.setMaximumFractionDigits(8); // Set as needed for desired decimal places
+        System.out.println();
+		System.out.print('[');
+		for (int i = 0; i < array.length; i++) {
+			if (i == array.length - 1) {
+				System.out.print(df.format(array[i]) + "]\n");
+			} else {
+				System.out.print(df.format(array[i]) + ", ");
+			}
+		}
+	}
+	
+	public static void printArray(BigDecimal[] array) {
+        DecimalFormat df = new DecimalFormat("#");
+        df.setMaximumFractionDigits(8); // Set as needed for desired decimal places
+
+        System.out.println();
+        System.out.print('[');
+        for (int i = 0; i < array.length; i++) {
+            if (i == array.length - 1) {
+                System.out.print(df.format(array[i]) + "]\n");
+            } else {
+                System.out.print(df.format(array[i]) + ", ");
+            }
+        }
+    }
+	
+	// Helper method to find minimum value in BigDecimal array
+    private static BigDecimal min(BigDecimal[] array) {
+        BigDecimal min = array[0];
+        for (BigDecimal value : array) {
+            if (value.compareTo(min) < 0) {
+                min = value;
+            }
+        }
+        return min;
+    }
+    
+    // Helper method to sum elements of BigDecimal array
+    private static BigDecimal sum(BigDecimal[] array) {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (BigDecimal value : array) {
+            sum = sum.add(value);
+        }
+        return sum;
+    }
+	
+//	public static double[] calculateOdds(double[] payouts) {
+//		
+//		// define initial guesses for O
+//		double[] O = new double[payouts.length];
+//		for (int i = 0; i < payouts.length; i++) {
+//			O[i] = 1 / payouts[i];
+//		}
+//		
+//		// determine scalar
+//		double scaleFactor = 1 / min(O);
+//		
+//		// normalize O with scalar
+//		for (int i = 0; i < payouts.length; i++) {
+//			O[i] *= scaleFactor * 100_000;
+//		}
+//		
+//		double totalPositions = sum(O);
+//		double tolerance = 0.001;
+//		long maxIterations = 10_000_000_000l;
+//		long iterations = 0l;
+//		
+//		boolean improved = true;
+//		
+//		while (improved && iterations < maxIterations) {
+//			improved = false;
+//			totalPositions = sum(O);
+//			
+//			for (int i = 0; i < payouts.length; i++) {
+//				
+//				if (Math.abs((payouts[i] * O[i]) - totalPositions) < tolerance) {
+//					continue;
+//				}
+//				
+//				
+//				if (payouts[i] * (O[i] + 1) <= totalPositions + tolerance) {
+//					O[i]++;
+//					improved = true;
+//				} else if (payouts[i] * O[i] > totalPositions + tolerance) {
+//					O[i]--;
+//					improved = true;
+//				}
+//				
+//			}
+//			iterations += 1l;
+//			if (iterations == maxIterations) {
+//				System.out.println("WARNING: Max Iterations Reached Without Full Convergence\n");
+//			}
+//		}
+//		
+//		return O;
+//	}
+//	
+	public static BigDecimal[] calculateOdds(double[] payouts) {
+        // Initialize BigDecimal array for O with initial guesses inversely proportional to payouts
+        BigDecimal[] O = new BigDecimal[payouts.length];
+//        for (int i = 0; i < payouts.length; i++) {
+//            O[i] = BigDecimal.valueOf(100).divide(BigDecimal.valueOf(payouts[i]), 10, RoundingMode.HALF_UP);
+//        }
+//        
+//        // Determine the scale factor
+//        BigDecimal scaleFactor = BigDecimal.ONE.divide(min(O), 10, RoundingMode.HALF_UP);
+//
+//        // Normalize O with scale factor and scale up
+//        for (int i = 0; i < payouts.length; i++) {
+//            O[i] = O[i].multiply(scaleFactor).multiply(BigDecimal.valueOf(100)).setScale(10, RoundingMode.HALF_UP);
+//        }
+//        System.out.printf("Scale Factor: %.4f", scaleFactor);
+//        printArray(O);
+//        System.out.println();
+
+        BigDecimal N = BigDecimal.ONE;
+        for (int i = 0; i < payouts.length; i++) {
+        	N = N.multiply(BigDecimal.valueOf(payouts[i]));
+        }
+        
+        for (int i = 0; i < payouts.length; i++) {
+        	O[i] = N.divide(BigDecimal.valueOf(payouts[i]), 10, RoundingMode.HALF_DOWN).multiply(BigDecimal.valueOf(1_000));
+        }
+        
+        BigDecimal totalPositions = sum(O);
+        BigDecimal tolerance = new BigDecimal("1"); // Adjust tolerance as needed
+        int maxIterations = 10_000_000;
+        int iterations = 0;
+        
+        boolean improved = true;
+        
+        while (improved && iterations < maxIterations) {
+            improved = false;
+            totalPositions = sum(O);
+            
+            for (int i = 0; i < payouts.length; i++) {
+                BigDecimal currentValue = BigDecimal.valueOf(payouts[i]).multiply(O[i]);
+                
+//                if (currentValue.subtract(totalPositions).abs().compareTo(tolerance) < 0) {
+//                    continue;
+//                }
+                
+                // Try incrementing if within tolerance bounds
+                if (BigDecimal.valueOf(payouts[i]).multiply(O[i].add(BigDecimal.ONE)).compareTo(totalPositions.add(tolerance)) <= 0) {
+                    O[i] = O[i].add(BigDecimal.ONE);
+//                    totalPositions = totalPositions.add(BigDecimal.ONE);
+                    improved = true;
+                }
+                // Decrement slightly if it overshoots
+                else if (currentValue.compareTo(totalPositions.add(tolerance)) > 0) {
+                    O[i] = O[i].subtract(BigDecimal.ONE);
+//                    totalPositions = totalPositions.subtract(BigDecimal.ONE);
+                    improved = true;
+                }
+                // check if value is zero
+                else if (O[i].equals(BigDecimal.ZERO)) {
+                	O[i] = O[i].add(BigDecimal.ONE);
+                	improved = true;
+                }
+            }
+            iterations += 1;
+            if (iterations == maxIterations) {
+                System.out.println("WARNING: Max Iterations Reached Without Full Convergence\n");
+            }
+        }
+        
+        return O;
+    }
+   
 	
 	public static void runNEWSim() {
 		System.out.println("Running New And Improved Fortune Wheel");
 		
-		int[] payouts = {  1,   2,   5,   10,   25,  50};
-		int[] odds    = { 500, 420, 210,  100,  40,  20};
+//		int[] payouts = {   2,        3 ,    5,     10,     25,     50   };
+//		int[] odds    = { 230000,  158000, 95000,  48000,   20000,  10000 };
+		
+		int[] payouts = {    2,          3 ,        5,        10,         25,        40    };
+		int[] odds    = { 160000000, 110000000,  70000000,  40000000,   16256684,  10160427 };
+		
+//		int[] payouts = {   2,      3,      5,     10,     25 };
+//		int[] odds    = { 100012500, 100008333, 60612373,  30306186,  12122474};
 		// find odds where odds[i] * ( payouts[i] + 1 ) < totalOdds
 		
+		boolean calcOdds = false;
+		
+		if (calcOdds) {
+			System.out.println("Calculating Odds For Test Set Of Payouts\n");
+			double[] testPayouts = { 2, 3, 5, 10, 25, 40 };
+			BigDecimal[] O = calculateOdds(testPayouts);
+			BigDecimal sumOfO = sum(O);
+			
+			DecimalFormat df = new DecimalFormat("#");
+	        df.setMaximumFractionDigits(8); // Set as needed for desired decimal places
+			
+			System.out.println("PAYOUTS: ");
+			printArray(testPayouts);
+			System.out.println("\nODDS: ");
+			printArray(O);
+			System.out.println("\nSum Of Odds: " + df.format(sumOfO));
+			
+			BigDecimal[] ORatio = new BigDecimal[O.length];
+			for (int i = 0; i < O.length; i++) {
+				ORatio[i] = O[i]
+		                   .multiply(BigDecimal.valueOf(testPayouts[i]))
+		                   .divide(sumOfO, 1000, RoundingMode.HALF_UP); // Adjust scale (10) as needed
+			}
+			System.out.println("Ratio of Payouts To Sum");
+			printArray(ORatio);
+			return;
+		} else {
+			System.out.println("Running Simulation On Payout and Odds Data");
+		}
 		
 		int[] totalOdds = new int[odds.length];
 		for (int i = 0; i < odds.length; i++) {
@@ -45,12 +272,14 @@ public class FortuneWheel {
 		// otherwise certain numbers will have a far worse house edge than others
 		int[] guesses = { 1, 1, 1, 1, 1, 1 }; // { 0, 0, 0, 0, 0, 1 };
 		
+		double oddsOfZero = 0;//5; // 5%
+		
 		double totalBet = 0;
 		for (int i = 0; i < guesses.length; i++) {
 			totalBet += guesses[i] * bet;
 		}
 		
-		int iterations = 50_000_000;
+		int iterations = 25_000_000;
 		
 		Random r = new Random();
 		
@@ -62,6 +291,10 @@ public class FortuneWheel {
 				currentValuess[currentGuessNo] -= bet;
 				currentValuessTwo -= totalBet;
 				
+				if (r.nextInt(100) < oddsOfZero) {
+					continue;
+				}
+				
 				int index = r.nextInt(Integer.MAX_VALUE) % totalOptions;
 				int winner = totalOdds.length;
 				
@@ -72,7 +305,7 @@ public class FortuneWheel {
 					}
 				}
 				
-				double payout = ((double)payouts[winner] + 1) * bet;
+				double payout = (double)payouts[winner] * bet;
 				if (currentGuessNo == winner) {
 					currentValuess[currentGuessNo] += payout;
 				}

@@ -221,7 +221,7 @@ public class Plinko {
 	
 	public static int[] totalDegenOddsNEW = { 30, 300, 800, 1400, 3400, 6400, 15000, 30000, 110000, 220000, 528500  };
 
-	public static final int nBallsToDrop = 100_000_000;
+	public static final int nBallsToDrop = 5_000_000;
 	public static final int simulation_runs = 1; // 100;
 	
 	public static void run() {
@@ -234,10 +234,10 @@ public class Plinko {
 //		runSim(halfBuckets3, halfBucketWeights3GPT, nBallsToDrop, simulation_runs, 3, CENTER_BUCKET3, false);
 		
 		
-		runSim(modestPayouts, modestOdds, nBallsToDrop, simulation_runs, 3, MODEST_CENTER, true, 100, 0.51);
-		runSim(averagePayouts, averageOdds, nBallsToDrop, simulation_runs, 3, AVERAGE_CENTER, true, 100, 0.485);
-		runSim(daredevilPayouts, daredevilOdds, nBallsToDrop, simulation_runs, 3, DAREDEVIL_CENTER, true, 100, 0.525);
-		runSim(totalDegenPayoutsNEW, totalDegenOddsNEW, nBallsToDrop, simulation_runs, 3, TOTALDEGEN_CENTER, true, 100, 0.385);
+		runSim(modestPayouts, modestOdds, nBallsToDrop, simulation_runs, 3, MODEST_CENTER, false, 100, 0.51);
+		runSim(averagePayouts, averageOdds, nBallsToDrop, simulation_runs, 3, AVERAGE_CENTER, false, 100, 0.485);
+		runSim(daredevilPayouts, daredevilOdds, nBallsToDrop, simulation_runs, 3, DAREDEVIL_CENTER, false, 100, 0.525);
+		runSim(totalDegenPayoutsNEW, totalDegenOddsNEW, nBallsToDrop, simulation_runs, 3, TOTALDEGEN_CENTER, false, 100, 0.385);
 //		
 //		runTest();
 		

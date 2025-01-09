@@ -220,15 +220,15 @@ public class FinalBluechip {
 				{Coins.DOG, Coins.DOG, Coins.ETH},
 				
 				{Coins.DOG, Coins.SOL, Coins.BTC},
-//				{Coins.DOG, Coins.SOL, Coins.ETH},
-//				{Coins.DOG, Coins.MAT, Coins.BTC},
+				{Coins.DOG, Coins.SOL, Coins.ETH},
+				{Coins.DOG, Coins.MAT, Coins.BTC},
 				
 				{Coins.MAT, Coins.MAT, Coins.BTC},
 				{Coins.MAT, Coins.MAT, Coins.ETH},
 				{Coins.MAT, Coins.MAT, Coins.BNB},
-//				{Coins.MAT, Coins.MAT, Coins.SOL},
+				{Coins.MAT, Coins.MAT, Coins.SOL},
 //				{Coins.MAT, Coins.MAT, Coins.XRP},
-//				{Coins.MAT, Coins.MAT, Coins.DOG},
+				{Coins.MAT, Coins.MAT, Coins.DOG},
 				
 				{Coins.MAT, Coins.BTC, Coins.BTC},
 				{Coins.MAT, Coins.BTC, Coins.ETH},
@@ -247,14 +247,15 @@ public class FinalBluechip {
 				{Coins.MAT, Coins.BNB, Coins.ETH},
 				{Coins.MAT, Coins.BNB, Coins.BNB},
 //				{Coins.MAT, Coins.BNB, Coins.SOL},
-//				{Coins.MAT, Coins.BNB, Coins.DOG},
+				{Coins.MAT, Coins.BNB, Coins.DOG},
 				
 				{Coins.MAT, Coins.SOL, Coins.BTC},
 				{Coins.MAT, Coins.SOL, Coins.ETH},
 //				{Coins.MAT, Coins.SOL, Coins.BNB},
 //				{Coins.MAT, Coins.SOL, Coins.SOL},
 				
-//				{Coins.MAT, Coins.DOG, Coins.BTC},
+				{Coins.MAT, Coins.DOG, Coins.BTC},
+				{Coins.MAT, Coins.DOG, Coins.ETH},
 		};
 		
 		 									//   0		 1		2	   3	  4	     5        6
@@ -321,7 +322,7 @@ public class FinalBluechip {
 				
 				//realPayouts[i] = ((double)Math.round((10_000 * payoutBasisPoint ) / (double)waysToMakeCombo[i])) / 10_000.0;
 //				realPayouts[i] = ((double)Math.round((10_000 * payoutBasisPoint ) / (double)waysToMakeCombo[i])) / 10_000.0;
-				realPayouts[i] = ((double)Math.round((100_000 * payoutBasisPoint ) / ((double)waysToMakeCombo[i] / 1000))) / 100_000.0;
+				realPayouts[i] = ((double)Math.round((100_000.0 * payoutBasisPoint ) / ((double)waysToMakeCombo[i] / 1000))) / 100_000.0;
 				
 				if (combos[i][0] == Coins.DOG && combos[i][1] == Coins.DOG && combos[i][2] == Coins.DOG) {
 					realPayouts[i] = 3;
@@ -346,10 +347,10 @@ public class FinalBluechip {
 				}
 				
 				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.ETH) {
-					realPayouts[i] = 130;
+					realPayouts[i] = 110;
 				}
 				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.ETH && combos[i][2] == Coins.BTC) {
-					realPayouts[i] = 110;
+					realPayouts[i] = 105;
 				}
 				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BTC) {
 					realPayouts[i] = 100;
@@ -366,13 +367,13 @@ public class FinalBluechip {
 				}
 				
 				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BNB) {
-					realPayouts[i] = 40;
+					realPayouts[i] = 35;
 				}
 				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.SOL) {
-					realPayouts[i] = 40;
+					realPayouts[i] = 35;
 				}
 				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.DOG) {
-					realPayouts[i] = 30;
+					realPayouts[i] = 35;
 				}
 				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.BTC && combos[i][2] == Coins.XRP) {
 					realPayouts[i] = 30;
@@ -381,8 +382,67 @@ public class FinalBluechip {
 					realPayouts[i] = 20;
 				}
 				
-
-				if (realPayouts[i] < 1.75) {
+				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.ETH && combos[i][2] == Coins.BNB) {
+					realPayouts[i] = 15;
+				}
+				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.ETH && combos[i][2] == Coins.SOL) {
+					realPayouts[i] = 15;
+				}
+				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.ETH && combos[i][2] == Coins.DOG) {
+					realPayouts[i] = 15;
+				}
+				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.ETH && combos[i][2] == Coins.XRP) {
+					realPayouts[i] = 15;
+				}
+				else if (combos[i][0] == Coins.BTC && combos[i][1] == Coins.ETH && combos[i][2] == Coins.MAT) {
+					realPayouts[i] = 10;
+				}
+				
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.BNB) {
+					realPayouts[i] = 12;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.SOL) {
+					realPayouts[i] = 12;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.DOG) {
+					realPayouts[i] = 12;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.XRP) {
+					realPayouts[i] = 12;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.BTC && combos[i][2] == Coins.MAT) {
+					realPayouts[i] = 8;
+				}
+				
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.ETH && combos[i][2] == Coins.BNB) {
+					realPayouts[i] = 7;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.ETH && combos[i][2] == Coins.SOL) {
+					realPayouts[i] = 7;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.ETH && combos[i][2] == Coins.DOG) {
+					realPayouts[i] = 7;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.ETH && combos[i][2] == Coins.XRP) {
+					realPayouts[i] = 7;
+				}
+				else if (combos[i][0] == Coins.ETH && combos[i][1] == Coins.ETH && combos[i][2] == Coins.MAT) {
+					realPayouts[i] = 4;
+				}
+				
+				
+				
+				if (realPayouts[i] < 0.7) {
+					System.out.println("Payout Under 0.7: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + ": " + realPayouts[i]);
+					realPayouts[i] = 0.5;
+				} else if (realPayouts[i] < 1) {
+					System.out.println("Payout Under 1: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + ": " + realPayouts[i]);
+					realPayouts[i] = 0.75;
+				} else if (realPayouts[i] < 1.5) {
+					System.out.println("Payout Under 1.5: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + ": " + realPayouts[i]);
+					realPayouts[i] = 1.25;
+				} else if (realPayouts[i] < 1.75) {
+					System.out.println("Payout Under 1.75: " + combos[i][0] + " " + combos[i][1] + " " + combos[i][2] + ": " + realPayouts[i]);
 					realPayouts[i] = 1.75;
 				}
 				
@@ -636,7 +696,7 @@ public class FinalBluechip {
 			
 			
 			/** BEGIN SIMULATING OVER DATA*/
-			int runs = 50_000_000;
+			int runs = 100_000_000;
 			double startingValue = 0;
 			double currentValue = startingValue;
 			double bet = 1;
@@ -671,8 +731,8 @@ public class FinalBluechip {
 			
 			double[] gameOutputs = new double[GAMES_TO_TRACK];
 			
-			int odds_for_boost = 0;
-			double reducedBuyIn = bet;
+			int odds_for_boost = 0;//100;
+			double reducedBuyIn = bet;// * 0.188;
 			
 			if (reducedBuyIn < bet) {
 				fee = 0.02;
