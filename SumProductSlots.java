@@ -181,83 +181,27 @@ public class SumProductSlots {
 				1,
 		};
 		
-		public static int[] COINS_3_ROWS_LOW = {
-				400,
-				250,
-				225,
-				200,
-				200,
-				175,
-				150,
-				125,
-				100,
-				75,
-				75,
-				75,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				25,
-				25,
-				25,
-				25,
-				25,
-				25,
-				25,
-		};
 		
-		public static int[] COINS_4_ROWS_LOW = {
-				300,
-				250,
-				225,
-				200,
-				200,
-				200,
-				175,
-				150,
-				125,
-				100,
-				75,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				25,
-				25,
-				25,
-				25,
-				25,
-				20,
-				20,
-				20
-		};
 		
-		public static int[] COINS_5_ROWS_LOW = {
-				250,
-				225,
-				200,
-				200,
-				175,
-				150,
-				100,
-				100,
-				75,
-				50,
-				50,
-				50,
-				50,
-				25,
-				25,
-				25,
-				20,
-				20
-		};
+		
+		public static int[] COINS_3_ROWS_HIGH = 
+{ 500, 400, 300, 250, 225, 200, 175, 150, 125, 100, 100, 75, 50, 50, 50, 50, 50, 25, 25, 25, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20, 10};
+//{ 600, 500, 400, 300, 250, 225, 200, 200, 175, 150, 125, 100, 100, 75, 50, 50, 50, 50, 50, 50, 50, 25, 25, 25, 25, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 10, 10, 10, 10 };
+		
+		public static int[] COINS_4_ROWS_HIGH = { 400, 300, 250, 225, 200, 200, 175, 175, 150, 150, 125, 100, 75, 50, 50, 50, 50, 50, 50, 50, 50, 25, 25, 25, 25, 25, 25, 25, 20, 20, 20, 20 };
+		
+		
+		public static int[] COINS_5_ROWS_HIGH = { 300, 250, 225, 200, 200, 175, 150, 100, 75, 50, 50, 50, 50, 50, 25, 25, 25, 25, 25, 20, 20 };
+		
+		
+		
+		
+		
+		public static int[] COINS_3_ROWS_LOW = { 400, 300, 250, 225, 200, 175, 150, 125, 100, 75, 75, 50, 50, 50, 50, 50, 50, 50, 50, 50, 25, 25, 25, 20, 20, 20, 20 };
+		
+		public static int[] COINS_4_ROWS_LOW = { 300, 250, 225, 200, 200, 200, 175, 150, 125, 100, 75, 50, 50, 50, 50, 50, 50, 25, 25, 25, 25, 25, 20, 20, 20 };
+		
+		public static int[] COINS_5_ROWS_LOW = { 250, 225, 225, 200, 200, 175, 150, 100, 75, 50, 50, 50, 50, 50, 25, 25, 25, 25, 20, 20 };
 		
 		
 		public static int[][][] SETUP = {
@@ -265,6 +209,11 @@ public class SumProductSlots {
 				COINS_3_ROWS_LOW,
 				COINS_4_ROWS_LOW,
 				COINS_5_ROWS_LOW,
+			},
+			{
+				COINS_3_ROWS_HIGH,
+				COINS_4_ROWS_HIGH,
+				COINS_5_ROWS_HIGH
 			},
 			{
 				COINS_3_ROWS_DEGEN,
@@ -280,11 +229,11 @@ public class SumProductSlots {
 		public static int NUM_COINS = COINS.length;
 		
 
-		public static boolean skipBreakdown = true;
-		public static boolean just_print_contract_values = false;
+		public static boolean skipBreakdown = false;
+		public static boolean just_print_contract_values = true;
 		public static int runs = 50_000_000;
 		
-		public static int SPINS_PER_GAME = 20;
+		public static int SPINS_PER_GAME = 25;
 		public static int GAMES_TO_TRACK = 200;
 		public static int betAmount = 1;
 		
@@ -338,6 +287,11 @@ public class SumProductSlots {
 	    
 	    public static double getRandomPayout(Random r) {
 			double multiplier = 1;
+//			int rng = r.nextInt(Integer.MAX_VALUE);
+//			for (int i = 0;i  < NUM_ROWS; i++) {
+//				int currentRNG = rng >> ( i * 8 );
+//				multiplier *= ( (double)COINS[currentRNG % NUM_COINS]) / 100.0;
+//			}
 			for (int i = 0; i < NUM_ROWS; i++) {
 				int rng = r.nextInt(Integer.MAX_VALUE) % NUM_COINS;
 				multiplier *= ( (double)COINS[rng] ) / 100.0;
@@ -452,13 +406,29 @@ public class SumProductSlots {
 			System.out.println("Running Slots");
 			
 			if (just_print_contract_values) {
-				System.out.print("[");
-				for (int i = 0; i < COINS.length; i++) {
-					if (i < COINS.length - 1) {
-						System.out.printf("%d,", COINS[COINS.length - (i + 1)]);
-					} else {
-						System.out.printf("%d]", COINS[0]);
+				for (int level = 0; level < SETUP.length; level++) {
+					String riskLevel = level == 0 ? "Low" : level == 1 ? "High" : "Degenerate"; 
+					System.out.println("Printing Results For Risk Level: " + riskLevel);
+					
+					for (int numCols = 0; numCols < SETUP[level].length; numCols++) {
+						
+						System.out.println("Num Columns: " + (numCols + 3));
+						
+						System.out.print("[");
+						
+						int length = SETUP[level][numCols].length;
+						
+						for (int i = 0; i < length; i++) {
+							if (i < length - 1) {
+//								System.out.printf("%d,", SETUP[level][numCols][length - (i + 1)]);
+								System.out.printf("%d,", SETUP[level][numCols][i]);
+							} else {
+//								System.out.printf("%d]\n", SETUP[level][numCols][0]);
+								System.out.printf("%d]\n", SETUP[level][numCols][i]);
+							}
+						}
 					}
+					System.out.println();
 				}
 				return;
 			}

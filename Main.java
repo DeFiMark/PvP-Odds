@@ -3,6 +3,8 @@ package main;
 import java.util.Random;
 //import main.Slots;
 
+import apechurch.BubbleGumHeist;
+import apechurch.DinoDough;
 import gui.SlotsGUI;
 
 public class Main {
@@ -341,8 +343,19 @@ public class Main {
 //		FinalBluechip.run();
 //		FinalBonanza.run();
 //		FinalMemecoin.run();
+		// ^^^ These are the final ones in production on PvP Money
 		
-		SumProductSlots.run();
+//		CaptainSlots.run();
+//		BinaryFlip.run();
+//		QuantumSpin.run();
+//		AtomicPlinko.run();
+		
+		
+//		DinoDough.run();
+		BubbleGumHeist.run();
+		
+		
+//		SumProductSlots.run();
 		
 		
 //		runSimGUI();

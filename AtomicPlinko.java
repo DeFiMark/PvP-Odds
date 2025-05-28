@@ -3,7 +3,7 @@ package main;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Plinko {
+public class AtomicPlinko {
 	
 	
 //	public static double[] totalDegenPayouts = { 1000.0, 250.0, 100, 50, 25, 10, 4.8, 2.2, 0.5, 0.25 }; // Total Degen
@@ -195,14 +195,12 @@ public class Plinko {
 
 	public static double MODEST_CENTER = 0.33;
 	public static double AVERAGE_CENTER = 0.3;
-	public static double DAREDEVIL_CENTER = 0.2;
 	public static double TOTALDEGEN_CENTER = 0.1;
 	
 	// PAYOUTS
-	public static double[] modestPayouts = {25, 10, 4.5, 2.2, 1.2, 0.6 }; // Modest
-	public static double[] averagePayouts = {50.0, 25.0, 10.0, 5.5, 3.0, 1.25, 0.5 }; // Average
-	public static double[] daredevilPayouts = {100.0, 33.0, 17.0, 8.5, 4.4, 2.6, 1.25, 0.75, 0.5 }; // Daredevil
-	public static double[] totalDegenPayoutsNEW = { 1000.0, 250.0, 100, 55, 19, 9.5, 4.2, 1.9, 0.5, 0.25 }; // Total Degen
+//	public static double[] modestPayouts = {25, 10, 4.5, 2.2, 1.2, 0.6 }; // Modest
+//	public static double[] averagePayouts = {50.0, 25.0, 10.0, 5.5, 3.0, 1.25, 0.5 }; // Average
+//	public static double[] totalDegenPayoutsNEW = { 1000.0, 250.0, 100, 55, 19, 9.5, 4.2, 1.9, 0.5, 0.25 }; // Total Degen
 	
 	
 //	public static double[] totalDegenPayouts = { 1000.0, 250.0, 100, 50, 25, 10, 4.8, 2.2, 0.5, 0.25 }; // Total Degen
@@ -214,32 +212,35 @@ public class Plinko {
 //	public static int[] totalDegenOdds = { 100, 300, 643, 1211, 2345, 5747, 11889, 25848, 113468, 226859, 567033 };
 	
 	// ODDS OUTPUT: MY CHANGES
-	public static int[] modestOdds = { 2, 5, 11, 25, 75, 138, 380 };
-	public static int[] averageOdds = { 122, 350, 1000, 2500, 5000, 12000, 28000, 100000 };
-	public static int[] daredevilOdds = { 25, 50, 100, 200, 500, 1200, 2500, 4000, 5500, 20000 };
+//	public static int[] modestOdds = { 2, 5, 11, 25, 75, 138, 380 };
+//	public static int[] averageOdds = { 122, 350, 1000, 2500, 5000, 12000, 28000, 100000 };
+	
 //	public static int[] totalDegenOdds = { 40, 300, 700, 1350, 2500, 5800, 13000, 26000, 110000, 200000, 546000 };
 	
-	public static int[] totalDegenOddsNEW = { 30, 300, 800, 1400, 3400, 6400, 15000, 30000, 110000, 220000, 528500  };
-
+//	public static int[] totalDegenOddsNEW = { 30, 300, 800, 1400, 3400, 6400, 15000, 30000, 110000, 220000, 528500  };
+	
+	
+	
+//	public static double[] daredevilPayouts = { 100.0, 50.0, 33.0,  17.0,  8.5,  4.2,  3.5,   2.0,   1.1,  0.75,  0.4 };
+//	public static int[] daredevilOdds =       {  1,     11,  21,     40,    70,  140,  200,   325,   500,  1_600, 2_800, 4_800 };
+	
+//	public static double DAREDEVIL_CENTER = 0.3;
+//	public static double[] daredevilPayouts = { 50.0, 25.0,  16.0,  7.0,  4.0,   2.0,   1.1,   0.6 };
+//	public static int[] daredevilOdds =       {  1,    2,     3,     9,   16,    35,    50,    250,   570 };
+	
+	public static double DAREDEVIL_CENTER = 0.4;
+	public static double[] daredevilPayouts = { 50.0, 25.0,  11.0,  7.0,  3.0,   2.0,   1.1, };
+	public static int[] daredevilOdds =       {  1,    2,     5,     9,   22,    35,    60,    1_000 };
+	
 	public static final int nBallsToDrop = 5_000_000;
 	public static final int simulation_runs = 1; // 100;
 	
 	public static void run() {
-//		runSim(halfBuckets0, halfBucketWeights0, nBallsToDrop, simulation_runs, 0, CENTER_BUCKET0, false);
-//		runSim(halfBuckets0, halfBucketWeights0GPT, nBallsToDrop, simulation_runs, 0, CENTER_BUCKET0, false);
-//		runSim(halfBuckets1, halfBucketWeights1, nBallsToDrop, simulation_runs, 1, CENTER_BUCKET1, true);
-////		calculatePercentages(halfBuckets1, halfBucketWeights1, CENTER_BUCKET1);
-//		runSim(halfBuckets2, halfBucketWeights2, nBallsToDrop, simulation_runs, 2, CENTER_BUCKET2, true);
-//		runSim(halfBuckets3, halfBucketWeights3, nBallsToDrop, simulation_runs, 3, CENTER_BUCKET3, false);
-//		runSim(halfBuckets3, halfBucketWeights3GPT, nBallsToDrop, simulation_runs, 3, CENTER_BUCKET3, false);
 		
-		
-		runSim(modestPayouts, modestOdds, nBallsToDrop, simulation_runs, 3, MODEST_CENTER, true, 100, 0.51);
-		runSim(averagePayouts, averageOdds, nBallsToDrop, simulation_runs, 3, AVERAGE_CENTER, true, 100, 0.485);
-		runSim(daredevilPayouts, daredevilOdds, nBallsToDrop, simulation_runs, 3, DAREDEVIL_CENTER, true, 100, 0.525);
-		runSim(totalDegenPayoutsNEW, totalDegenOddsNEW, nBallsToDrop, simulation_runs, 3, TOTALDEGEN_CENTER, true, 100, 0.385);
-//		
-//		runTest();
+//		runSim(modestPayouts, modestOdds, nBallsToDrop, simulation_runs, 3, MODEST_CENTER, true, 100, 0.51);
+//		runSim(averagePayouts, averageOdds, nBallsToDrop, simulation_runs, 3, AVERAGE_CENTER, true, 100, 0.485);
+		runSim(daredevilPayouts, daredevilOdds, nBallsToDrop, simulation_runs, 3, DAREDEVIL_CENTER, true);
+//		runSim(totalDegenPayoutsNEW, totalDegenOddsNEW, nBallsToDrop, simulation_runs, 3, TOTALDEGEN_CENTER, true, 100, 0.385);
 		
 		if (true) {
 			return;
@@ -471,13 +472,10 @@ public class Plinko {
 			int simRuns, 
 			int riskLevel, 
 			double CENTER_BUCKET, 
-			boolean fetchingInputsOnly, 
-			int boostOdds, 
-			double payoutReduction
+			boolean fetchingInputsOnly
 	) {
 		
 		double bet = 1;
-		double reducedBet = bet * payoutReduction;
 		
 		double[] buckets = new double[( halfBuckets.length * 2 ) + 1];
 		int[] bucketWeights = new int[buckets.length];
@@ -500,7 +498,7 @@ public class Plinko {
 		double houseValueNoFee = startingHouseValue;
 		double totalFees = 0;
 		
-		double fee = 0.01;
+		double fee = 0.02;
 		
 		double fees = bet * fee;
 		double amountForHouse = bet - fees;
@@ -573,18 +571,6 @@ public class Plinko {
 					}
 				}
 				
-				if (r.nextInt(100) < boostOdds) {
-					if (bucket != 0 && bucket != bucketTotals.length - 1) {
-						if (bucket == halfBuckets.length) {
-							bucket = r.nextInt(2) == 0 ? bucket - 1 : bucket + 1;
-						} else if (bucket < halfBuckets.length) {
-							bucket--;
-						} else {
-							bucket++;
-						}
-					}
-				}
-				
 				if (bucket >= bucketTotals.length) {
 					System.out.println("ERROR, BUCKET EQUALS BUCKET TOTAL!!!!");
 					return;
@@ -592,7 +578,7 @@ public class Plinko {
 				
 				bucketWins[bucket]++;
 				
-				double payout = ( reducedBet * buckets[bucket] );
+				double payout = ( bet * buckets[bucket] );
 				
 				betterValue += payout;
 				houseValue -= payout;
@@ -631,22 +617,6 @@ public class Plinko {
 				100 * (double)halfBucketWeights[halfBucketWeights.length - 1] / topBucket
 			);   
 		System.out.printf("Wins Over 1: %.3f%%\n", oddsOverOne);
-		
-		if (boostOdds > 0) {
-			System.out.println("\n\nBoost Increase");
-			for (int i = 0; i < halfBucketWeights.length - 1; i++) {
-				System.out.printf(
-					buckets[i] + ": %.4f%%  |  %.4f%%\n", 
-					200 * (double)halfBucketWeights[i] / topBucket, // take ratio of wins to expected wins
-					200 * ((double)bucketWins[i] / ( numBalls * simRuns ) )
-				);              
-			}
-			System.out.printf(
-				CENTER_BUCKET + ": %.4f%%  |  %.4f%%\n", 
-				100 * (double)halfBucketWeights[halfBucketWeights.length - 1] / topBucket,
-				200 * ((double)bucketWins[halfBucketWeights.length - 1] / ( numBalls * simRuns ) )
-			);   
-		}
 		
 		
 //		System.out.printf("\nTotal Fees %d\n", (int)totalFees);
